@@ -1,0 +1,102 @@
+# Logging
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
+
+spring:
+  # JPA
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+      show_sql: true
+      use_sql_comments: true
+      format_sql: true
+  hibernate:
+    ddl-auto: none
+  open-in-view: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/res_establishment_area_db
+    username: res_establishment_area_user
+    password: USER@area
+  # Loadbalancer - This is permanent
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    service-registry:
+      auto-registration:
+        enabled: true
+    # Discovery
+    discovery:
+      enabled: true
+  # Zipkin
+  zipkin:
+    enabled: false
+    baseUrl: http://localhost:9411
+  # Sleuth
+  sleuth:
+    sampler:
+      percentage: 1.0
+    web:
+      skipPattern: (^cleanup:*|:+favicon:*)
+  
+  # Server
+server:
+  port: ${ESTABLISHMENT_AREA_SERVER_PORT}
+  
+  # Swagger
+springdoc:
+  swagger-ui:
+    enabled: true
+
+  # Eureka
+eureka:
+  client:
+    enabled: ${ESTABLISHMENT_AREA_EUREKA_CLIENT_ENABLED}
+    initial-instance-info-replication-interval-seconds: 120
+    instance-info-replication-interval-seconds: 120
+  serviceUrl:
+    registerWithEureka: true
+    defaultZone: http://${ESTABLISHMENT_AREA_EUREKA_HOST}:${ESTABLISHMENT_AREA_EUREKA_PORT}/eureka
+  instance:
+    prefer-ip-address: true
+
+  # Health
+management:
+#  health:
+#    mongo:
+#      enabled: true
+  endpoint:
+    health:
+      show-details: always
+    web:
+      exposure:
+        include: *
+  
+  # Info Endpoint
+info:
+  app:
+    name: @project:name@
+    description: @project:description@
+    version: @project:version@
+    encoding: @project:build:sourceEncoding@
+    java:
+      version: @java:version@
+  
+  # Business
+res:
+  establishment.area.floor:
+    fields-to-escape:
+  establishment.area.kitchen:
+    fields-to-escape:
+  establishment.area.table:
+    fields-to-escape:
