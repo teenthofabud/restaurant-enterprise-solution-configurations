@@ -80,7 +80,7 @@ management:
       show-details: always
     web:
       exposure:
-        include: *
+        include: "*"
   
   # Info Endpoint
 info:
