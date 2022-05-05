@@ -1,0 +1,118 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    mongo:
+      enabled: 'true'
+  endpoint:
+    health:
+      show-details: always
+
+feign:
+  client:
+    config:
+      metadata-service-currency-client:
+        readTimeout: '500'
+        connectTimeout: '250'
+      external-service-country-state-city-api-client:
+        connectTimeout: '250'
+        readTimeout: '500'
+        default-request-headers:
+          X-CSCAPI-KEY: dkJXMjJzOE9Ec2NJUFdLS1pUTTNJQUpocGFsOWJ4dGxzMU9KNTVmSA==
+  circuitbreaker:
+    enabled: 'true'
+
+info:
+  app:
+    encoding: '@project.build.sourceEncoding@'
+    version: '@project.version@'
+    name: '@project.name@'
+    java:
+      version: '@java.version@'
+    description: '@project.description@'
+
+res:
+  menu:
+    version: '@project.version@'
+    item:
+      fields-to-escape: ''
+    price:
+      fields-to-escape: ''
+    category:
+      fields-to-escape: ''
+    description: '@project.description@'
+
+springdoc:
+  swagger-ui:
+    enabled: 'true'
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: 'true'
+        use_sql_comments: 'true'
+        jdbc:
+          time_zone: UTC
+        show_sql: 'true'
+    open-in-view: 'false'
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: 'true'
+    loadbalancer:
+      ribbon:
+        enabled: 'false'
+    discovery:
+      enabled: 'true'
+  sleuth:
+    web:
+      skipPattern: (^cleanup.*|.+favicon.*)
+    sampler:
+      percentage: '1.0'
+  datasource:
+    password: M3nU
+    url: jdbc:mysql://localhost:3306/res_menu_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: res_menu_manager
+  zipkin:
+    baseUrl: http://localhost:9411
+    enabled: 'false'
+
+eureka:
+  client:
+    instance-info-replication-interval-seconds: '120'
+    enabled: ${MENU_EUREKA_CLIENT_ENABLED}
+    serviceUrl:
+      defaultZone: http://${MENU_EUREKA_HOST}:${MENU_EUREKA_PORT}/eureka
+      registerWithEureka: 'true'
+    initial-instance-info-replication-interval-seconds: '120'
+  instance:
+    prefer-ip-address: 'true'
+
+customer:
+  metadata:
+    service:
+      port: '34001'
+    gender-service:
+      url: localhost:${customer.metadata.service.port}/metadata/gender
+  external:
+    country-state-city-api:
+      url: https://api.countrystatecity.in/v1/countries
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO
+        SQL: INFO
+
+server:
+  port: ${MENU_SERVER_PORT}

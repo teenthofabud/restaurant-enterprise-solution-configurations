@@ -92,7 +92,7 @@ info:
     java:
       version: "@java:version@"
   
-  # Business
+# Business
 res:
   establishment:
     area:

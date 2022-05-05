@@ -1,0 +1,121 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    mongo:
+      enabled: 'true'
+  endpoint:
+    health:
+      show-details: always
+
+info:
+  app:
+    encoding: '@project.build.sourceEncoding@'
+    version: '@project.version@'
+    name: '@project.name@'
+    java:
+      version: '@java.version@'
+    description: '@project.description@'
+
+springdoc:
+  swagger-ui:
+    enabled: 'true'
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: 'true'
+        use_sql_comments: 'true'
+        jdbc:
+          time_zone: UTC
+        show_sql: 'true'
+    open-in-view: 'false'
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: 'true'
+    loadbalancer:
+      ribbon:
+        enabled: 'false'
+    discovery:
+      enabled: 'true'
+  sleuth:
+    web:
+      skipPattern: (^cleanup.*|.+favicon.*)
+    sampler:
+      percentage: '1.0'
+  datasource:
+    password: Cu$t0M3r
+    url: jdbc:mysql://localhost:3306/res_customer_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: res_customer_manager
+  zipkin:
+    baseUrl: http://localhost:9411
+    enabled: 'false'
+
+feign:
+  client:
+    config:
+      metadata-service:
+        readTimeout: '500'
+        connectTimeout: '250'
+        loggerLevel: basic
+      default:
+        loggerLevel: basic
+      country-state-city-api-service:
+        connectTimeout: '2000'
+        default-request-headers:
+          X-CSCAPI-KEY: dkJXMjJzOE9Ec2NJUFdLS1pUTTNJQUpocGFsOWJ4dGxzMU9KNTVmSA==
+        readTimeout: '3000'
+        loggerLevel: basic
+  circuitbreaker:
+    enabled: 'true'
+
+eureka:
+  client:
+    instance-info-replication-interval-seconds: '120'
+    enabled: ${CUSTOMER_EUREKA_CLIENT_ENABLED}
+    serviceUrl:
+      defaultZone: http://${CUSTOMER_EUREKA_HOST}:${CUSTOMER_EUREKA_PORT}/eureka
+      registerWithEureka: 'true'
+    initial-instance-info-replication-interval-seconds: '120'
+  instance:
+    prefer-ip-address: 'true'
+
+res:
+  customer:
+    description: '@project.description@'
+    version: '@project.version@'
+    dob:
+      format: dd-MM-yyyy
+    address:
+      fields-to-escape: ''
+    account:
+      fields-to-escape: dateOfBirth,emailId
+
+customer:
+  metadata:
+    service:
+      port: '34001'
+      url: localhost:${customer.metadata.service.port}
+  country-state-city-api:
+    service:
+      url: https://api.countrystatecity.in/v1/countries
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO
+        SQL: INFO
+
+server:
+  port: ${CUSTOMER_SERVER_PORT}

@@ -1,0 +1,118 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  health:
+    mongo:
+      enabled: 'true'
+  endpoint:
+    health:
+      show-details: always
+
+cookbook:
+  inventory:
+    service:
+      port: '15001'
+      url: localhost:${cookbook.inventory.service.port}
+  menu:
+    service:
+      port: '12001'
+      url: localhost:${cookbook.menu.service.port}
+
+info:
+  app:
+    encoding: '@project.build.sourceEncoding@'
+    version: '@project.version@'
+    name: '@project.name@'
+    java:
+      version: '@java.version@'
+    description: '@project.description@'
+springdoc:
+  swagger-ui:
+    enabled: 'true'
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: 'true'
+        use_sql_comments: 'true'
+        jdbc:
+          time_zone: UTC
+        show_sql: 'true'
+    open-in-view: 'false'
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: 'true'
+    loadbalancer:
+      ribbon:
+        enabled: 'false'
+    discovery:
+      enabled: 'true'
+  sleuth:
+    web:
+      skipPattern: (^cleanup.*|.+favicon.*)
+    sampler:
+      percentage: '1.0'
+  datasource:
+    password: C00k8ooK
+    url: jdbc:mysql://localhost:3306/res_cookbook_db
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: res_cookbook_manager
+  zipkin:
+    baseUrl: http://localhost:9411
+    enabled: 'false'
+
+eureka:
+  client:
+    instance-info-replication-interval-seconds: '120'
+    enabled: ${COOKBOOK_EUREKA_CLIENT_ENABLED}
+    serviceUrl:
+      defaultZone: http://${COOKBOOK_EUREKA_HOST}:${COOKBOOK_EUREKA_PORT}/eureka
+      registerWithEureka: 'true'
+    initial-instance-info-replication-interval-seconds: '120'
+  instance:
+    prefer-ip-address: 'true'
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: basic
+      menu-service-item-client:
+        readTimeout: '500'
+        connectTimeout: '250'
+      inventory-service:
+        loggerLevel: basic
+      menu-service:
+        loggerLevel: basic
+  circuitbreaker:
+    enabled: 'true'
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO
+        SQL: INFO
+
+res:
+  cookbook:
+    ingredient:
+      fields-to-escape: ''
+    cuisine:
+      fields-to-escape: ''
+    description: '@project.description@'
+    recipe:
+      fields-to-escape: ''
+    version: '@project.version@'
+
+server:
+  port: ${COOKBOOK_SERVER_PORT}
