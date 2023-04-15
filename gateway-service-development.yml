@@ -1,0 +1,13 @@
+# Servlet
+server:
+  port: ${GATEWAY_SERVER_PORT}
+# Swagger
+springdoc:
+  swagger-ui:
+    enabled: ${GATEWAY_SWAGGER_ENABLED}
+# Eureka
+eureka:
+  client:
+    enabled: ${GATEWAY_EUREKA_CLIENT_ENABLED}
+    serviceUrl:
+      defaultZone: http://${GATEWAY_EUREKA_HOST}:${GATEWAY_EUREKA_PORT}/eureka
