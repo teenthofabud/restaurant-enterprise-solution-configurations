@@ -1,8 +1,6 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/res_establishment_area_db
-    username: res_establishment_area_user
-    password: USER@area
   # Zipkin
   zipkin:
     enabled: false
