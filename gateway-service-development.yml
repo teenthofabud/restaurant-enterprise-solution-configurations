@@ -8,3 +8,7 @@ eureka:
     enabled: ${GATEWAY_EUREKA_CLIENT_ENABLED}
     serviceUrl:
       defaultZone: http://${GATEWAY_EUREKA_HOST}:${GATEWAY_EUREKA_PORT}/eureka
+spring:
+  zipkin:
+    enabled: ${GATEWAY_ZIPKIN_CLIENT_ENABLED}
+    baseUrl: http://${GATEWAY_ZIPKIN_HOST}:${GATEWAY_ZIPKIN_PORT}
